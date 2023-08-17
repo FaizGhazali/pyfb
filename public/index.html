@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="res/css/style.css">
+    <title>OvenPlayer</title>
+</head>
+
+
+<body>
+    <!-- OvenPlayer will be initialized inside this element. -->
+    <div id="player_id"></div>
+
+    <!-- Load OvenPlayer via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js"></script>
+
+    <script>
+
+        // Initialize OvenPlayer
+        const player = OvenPlayer.create('player_id', {
+            sources: [
+                {
+                    label: 'label_for_webrtc',
+                    // Set the type to 'webrtc'
+                    type: 'webrtc',
+                    // Set the file to WebRTC Signaling URL with OvenMediaEngine 
+                    file: 'ws://192.168.0.100:5754/app/stream'
+                }
+            ]
+        });
+    </script>
+
+    <button class="button" id="startButton">Start Record</button>
+    <div id="result" class="plain-word"></div>
+    
+    <button class="button" id="stopButton">Stop Record</button>
+    <button class="button" id="statusButton">Recording Status</button>
+    <div id="statusResult" class="plain-word"></div>
+
+    <script src="res/script/script.js"></script>
+</body>
+
+</html>
