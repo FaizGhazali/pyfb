@@ -26,7 +26,9 @@ export default function AsyncOvenPlayer() {
             file: 'ws://192.168.0.100:5754/app/stream'
           }
         ]
+        
       });
+      console.log("const player called");
 
       // Other initialization or behavior code related to OvenPlayer
       // ...

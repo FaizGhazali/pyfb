@@ -69,7 +69,7 @@ export default function Home() {
 
             
             <h1>This is home page, <Link href="./posts/ome">Click to go to the first post</Link></h1>
-            <div id="player_id"></div>
+            
             <Ome/>
             
         </div>
