@@ -1,10 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import Script from 'next/script';
 import Ome from './posts/ome'
+import ApiKeyForm from '../components/ApiKeyForm';
+import { useApiKey } from '../components/ApiKeyContext';
+
 
 export default function Home() {
+
+    const { apiKey, updateApiKey } = useApiKey();
+
+    const handleApiKeySubmit = (key) => {
+    // Save the API key using the context function
+    updateApiKey(key);
+    };
+
+    
+  
     useEffect(() => {
         if (typeof window !== 'undefined') {
             console.log("hello"); // This will run only on the client side
@@ -68,10 +81,16 @@ export default function Home() {
             />
 
             
-            <h1>This is home page, <Link href="./posts/ome">Click to go to the first post</Link></h1>
+            <h1>This is home page, <Link href="./posts/ShowApi">Click to go to the first post</Link></h1>
             
             <Ome/>
             
+            {!apiKey ? (
+            <ApiKeyForm onSubmit={handleApiKeySubmit} />
+               ) : (
+             <p>API Key: {apiKey}</p>
+            )}
+            
         </div>
     );
-  }
+}
