@@ -57,7 +57,7 @@ export default function Home() {
             {!apiKey ? (
             <ApiKeyForm onSubmit={handleApiKeySubmit} />
                ) : (
-             <p>API Key: {apiKey}</p>
+             <p>Input Here Maps Api  : {apiKey}</p>
             )}
             {/* Pass refreshFlag to ComponentB */}
             <Map refreshFlag={refreshFlag} />
