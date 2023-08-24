@@ -56,7 +56,7 @@ export default function AsyncOvenPlayer() {
         src="res/script/map.js"
         strategy="afterInteractive"
       />
-      <Map/>
+      
 
       <h1>Back to Home Page, <Link href="./">Click to go to the first post</Link></h1>
     </div>

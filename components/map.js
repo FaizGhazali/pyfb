@@ -5,7 +5,7 @@ import { useApiKey } from '../components/ApiKeyContext';
 export default function Map({ refreshFlag }){
   const mapRef = useRef(null);
   
-  const { apiKeys, updateApiKey } = useApiKey();
+  const { apiKey:mapKeys, updateApiKey } = useApiKey();
   
 
     const handleApiKeySubmit = (key) => {
@@ -15,30 +15,48 @@ export default function Map({ refreshFlag }){
   
   
   useEffect(() => {
-    // if (!apiKeys) {
-    //   console.error("API key is not provided.");
-    //   return;
-    // }
-    console.log("Here your api keys"+apiKeys);
-    // Initialize the platform and map
+    if (!mapKeys) {
+      console.error("API key is not provided.");
+      return;
+    }
+    //------------------- Start
+    function MakeMap(){
+      // Initialize the platform and map
+      const platform = new H.service.Platform({
+        apikey: mapKeys, // Replace with your HERE API Key
+      });
+          //ykV0LNTyrAZsQSzEcTasWIm_E2bo8fr5wrKFYaGUQPY
+      const defaultLayers = platform.createDefaultLayers();
+      const map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
+        center: { lat: 3.08, lng: 101.56 },
+        zoom: 17,
+      });
+      if(map){
+        let marker = MakeMarker();
+        AddMarkerOnMap(map,marker);
+      }
+    }
 
-    const platform = new H.service.Platform({
-      apikey: "ykV0LNTyrAZsQSzEcTasWIm_E2bo8fr5wrKFYaGUQPY", // Replace with your HERE API Key
-    });
-  //ykV0LNTyrAZsQSzEcTasWIm_E2bo8fr5wrKFYaGUQPY
+    function MakeMarker(){      
+      const emojiIcon = new H.map.Icon('/images/dragon_icon.png', {
+      size: { w: 40, h: 40 },
+      anchor: { x: 20, y: 40 }
+      });
+      const marker = new H.map.Marker(
+        { lat: 3.08, lng: 101.56 },
+        { icon: emojiIcon }
+      );
+      return marker;
+    }
 
-    const defaultLayers = platform.createDefaultLayers();
-    const map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
-      center: { lat: 3.08, lng: 101.56 },
-      zoom: 17,
-    });
-
-    // Add a marker
-    const marker = new H.map.Marker({ lat: 52.5, lng: 13.4 });
-    map.addObject(marker);
-
-    // Add event listener for resizing
+    function AddMarkerOnMap(map,marker){
+      map.addObject(marker);
+    }
+   //-------------------- END
+    MakeMap();
+    
     window.addEventListener('resize', () => map.getViewPort().resize());
+    
 
     return () => {
       // Cleanup
