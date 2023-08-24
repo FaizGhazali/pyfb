@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
+import Map from '../../components/map';
+import Link from 'next/link';
 
 export default function AsyncOvenPlayer() {
   useEffect(() => {
@@ -54,6 +56,9 @@ export default function AsyncOvenPlayer() {
         src="res/script/map.js"
         strategy="afterInteractive"
       />
+      <Map/>
+
+      <h1>Back to Home Page, <Link href="./">Click to go to the first post</Link></h1>
     </div>
   );
 }

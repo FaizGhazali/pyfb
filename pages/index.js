@@ -5,61 +5,28 @@ import Script from 'next/script';
 import Ome from './posts/ome'
 import ApiKeyForm from '../components/ApiKeyForm';
 import { useApiKey } from '../components/ApiKeyContext';
+import Map from '../components/map';
 
 
 export default function Home() {
 
     const { apiKey, updateApiKey } = useApiKey();
+    const [refreshFlag, setRefreshFlag] = useState(false);
+    
 
     const handleApiKeySubmit = (key) => {
     // Save the API key using the context function
     updateApiKey(key);
+    setRefreshFlag(!refreshFlag);
     };
 
     
   
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            console.log("hello"); // This will run only on the client side
-            // const player = OvenPlayer.create('player_id', {
-            //     sources: [
-            //         {
-            //             label: 'label_for_webrtc',
-            //             // Set the type to 'webrtc'
-            //             type: 'webrtc',
-            //             // Set the file to WebRTC Signaling URL with OvenMediaEngine 
-            //             file: 'ws://192.168.0.100:5754/app/stream'
-            //         }
-            //     ]
-            // });
+            console.log("hello"); 
         }
-    }, []); // Empty depend
-    
-    // const player = OvenPlayer.create('player_id', {
-    //     sources: [
-    //         {
-    //             label: 'label_for_webrtc',
-    //             // Set the type to 'webrtc'
-    //             type: 'webrtc',
-    //             // Set the file to WebRTC Signaling URL with OvenMediaEngine 
-    //             file: 'ws://192.168.0.100:5754/app/stream'
-    //         }
-    //     ]
-    // });
-    // useEffect(() => {
-    //     // Define your OvenPlayer-related code here
-    //     const player = OvenPlayer.create('player_id', {
-    //         sources: [
-    //             {
-    //                 label: 'label_for_webrtc',
-    //                 // Set the type to 'webrtc'
-    //                 type: 'webrtc',
-    //                 // Set the file to WebRTC Signaling URL with OvenMediaEngine 
-    //                 file: 'ws://192.168.0.100:5754/app/stream'
-    //             }
-    //         ]
-    //     });
-    // }, []); // Empty depend
+    }, []); 
     return (
         <div id="parent element">
             <Head>
@@ -85,11 +52,15 @@ export default function Home() {
             
             <Ome/>
             
+            
+            
             {!apiKey ? (
             <ApiKeyForm onSubmit={handleApiKeySubmit} />
                ) : (
              <p>API Key: {apiKey}</p>
             )}
+            {/* Pass refreshFlag to ComponentB */}
+            <Map refreshFlag={refreshFlag} />
             
         </div>
     );
