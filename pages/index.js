@@ -6,6 +6,7 @@ import Ome from './posts/ome'
 import ApiKeyForm from '../components/ApiKeyForm';
 import { useApiKey } from '../components/ApiKeyContext';
 import Map from '../components/map';
+import { useSession, signIn, signOut } from "next-auth/react"
 
 
 export default function Home() {
@@ -21,47 +22,70 @@ export default function Home() {
     };
 
     
-  
+    const { data: session } = useSession()
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             console.log("hello"); 
         }
-    }, []); 
-    return (
-        <div id="parent element">
-            <Head>
-            <title>This is homepage</title>
-            <link rel="icon" href="https://raw.githubusercontent.com/vercel/next-learn/master/basics/basics-final/public/images/profile.jpg" />
-            </Head>
-            <Script
-                src="https://connect.facebook.net/en_US/sdk.js"
-                strategy="lazyOnload"
-                onLoad={() =>
-                console.log(`script loaded correctly, window.FB has been populated`)
-                }
-            />
-            <Script
-                src="https://cdn.jsdelivr.net/npm/ovenplayer@0.10.0/dist/ovenplayer.js"
-                onLoad={() =>
-                    console.log(`OvenPlayer script loaded correctly`)
-                }
-            />
+    }, [session]); 
+    if (session) {
+        
+        return (
+            <div id="parent element">
+                <Head>
+                <title>This is homepage</title>
+                <link rel="icon" href="https://raw.githubusercontent.com/vercel/next-learn/master/basics/basics-final/public/images/profile.jpg" />
+                </Head>
+                Signed in as {session.user.email} <br />
+
+                <Script
+                    src="https://connect.facebook.net/en_US/sdk.js"
+                    strategy="lazyOnload"
+                    onLoad={() =>
+                    console.log(`script loaded correctly, window.FB has been populated`)
+                    }
+                />
+                <Script
+                    src="https://cdn.jsdelivr.net/npm/ovenplayer@0.10.0/dist/ovenplayer.js"
+                    onLoad={() =>
+                        console.log(`OvenPlayer script loaded correctly`)
+                    }
+                />
+    
+                
+                <h1>This is home page, <Link href="./posts/ShowApi">Click to go to the first post</Link></h1>
+                
+                <Ome/>
+                
+                
+                
+                {!apiKey ? (
+                <ApiKeyForm onSubmit={handleApiKeySubmit} />
+                   ) : (
+                 <p>Input Here Maps Api  : {apiKey}</p>
+                )}
+                {/* Pass refreshFlag to ComponentB */}
+                <Map refreshFlag={refreshFlag} />
+                
+            
+        
+
+                
+                <button onClick={() => signOut()}>Sign out</button>
 
             
-            <h1>This is home page, <Link href="./posts/ShowApi">Click to go to the first post</Link></h1>
-            
-            <Ome/>
-            
-            
-            
-            {!apiKey ? (
-            <ApiKeyForm onSubmit={handleApiKeySubmit} />
-               ) : (
-             <p>Input Here Maps Api  : {apiKey}</p>
-            )}
-            {/* Pass refreshFlag to ComponentB */}
-            <Map refreshFlag={refreshFlag} />
-            
-        </div>
-    );
+            </div>
+        );
+
+       
+    }
+    return (
+        <>
+          Not signed in <br />
+          <button onClick={() => signIn()}>Sign in</button>
+        </>
+      )
+
+    
 }
