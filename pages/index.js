@@ -7,6 +7,7 @@ import ApiKeyForm from '../components/ApiKeyForm';
 import { useApiKey } from '../components/ApiKeyContext';
 import Map from '../components/map';
 import { useSession, signIn, signOut } from "next-auth/react"
+import MqttPage from "../pages/mqtt-page"
 
 
 export default function Home() {
@@ -55,6 +56,8 @@ export default function Home() {
     
                 
                 <h1>This is home page, <Link href="./posts/ShowApi">Click to go to the first post</Link></h1>
+                <h1>Go to , <Link href="./mqtt-page">Mosquitto</Link></h1>
+                
                 
                 <Ome/>
                 
