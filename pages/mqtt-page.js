@@ -21,84 +21,83 @@ const message = 'Hanto Dari Next jS'; // Define your message here
 
 
 
-// const MqttPage = () => {
-//   // Define a state variable and a function to update it
-//   const [count, setCount] = useState(0);
-
-//   useEffect(() => {
-//     // Connect to your MQTT broker
-    
-//     const client = mqtt.connect(mqttUri);
-
-//     // Set up event handlers
-    
-//     client.on('connect', () => {
-//       console.log('Connected to MQTT broker');
-      
-//       // Publish the message to a topic
-//       // client.publish(topic, message); // Use the 'message' variable here
-//     });
-//     // Receive
-//     client.subscribe(topic, { qos: 0 }, function (error, granted) {
-//       if (error) {
-//         console.log(error)
-//       } else {
-//         console.log(`${granted[0].topic} was subscribed`)
-//       }
-//     });
-//     // Receive
-//     client.on('message', (topic, message, packet) => {
-//       console.log(`Received Message: ${message.toString()} On topic: ${topic}`)
-//       words = message.toString();
-//       dataTosend = words;
-//     });
-
-
-//     client.on('error', (error) => {
-//       console.error('MQTT error:', error);
-//     });
-//     // Change the value of the variable after a delay (for demonstration purposes)
-//     setTimeout(() => {
-//       setCount(count + 1);
-//     }, 2000); // Change the value after 2 seconds
-
-//     // Clean up when the component unmounts
-//     return () => {
-//       console.log("destroctor mqqt called");
-//       client.end();
-      
-//     };
-//   }, [count]);
-
-//   return (
-//     <div>
-//       <h1>Send MQTT Message</h1>
-//   <p>Check the console for MQTT status and messages. {words}</p>
-//   <p>Count: {count}</p>
-//   <p>Testing Pass Variable. Click Here <Link href="./posts/variableTest">Testing Propss</Link></p>
-  
-  
-//     </div>
-//   );
-// };
-
-
 const MqttPage = () => {
+
   const { setMyVariable } = useMyContext();
   const router = useRouter();
 
   const handleClick = () => {
-    setMyVariable('Olaa');
+    const a = words
+    setMyVariable(a);
     router.push('./posts/variableTest');
   };
 
+
+  // Define a state variable and a function to update it
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    // Connect to your MQTT broker
+    
+    const client = mqtt.connect(mqttUri);
+
+    // Set up event handlers
+    
+    client.on('connect', () => {
+      console.log('Connected to MQTT broker');
+      
+      // Publish the message to a topic
+      // client.publish(topic, message); // Use the 'message' variable here
+    });
+    // Receive
+    client.subscribe(topic, { qos: 0 }, function (error, granted) {
+      if (error) {
+        console.log(error)
+      } else {
+        console.log(`${granted[0].topic} was subscribed`)
+      }
+    });
+    // Receive
+    client.on('message', (topic, message, packet) => {
+      console.log(`Received Message: ${message.toString()} On topic: ${topic}`)
+      words = message.toString();
+      dataTosend = words;
+    });
+
+
+    client.on('error', (error) => {
+      console.error('MQTT error:', error);
+    });
+    // Change the value of the variable after a delay (for demonstration purposes)
+    setTimeout(() => {
+      setCount(count + 1);
+    }, 2000); // Change the value after 2 seconds
+
+    // Clean up when the component unmounts
+    return () => {
+      console.log("destroctor mqqt called");
+      client.end();
+      
+    };
+  }, [count]);
+
   return (
     <div>
+      <h1>Send MQTT Message</h1>
+      <p>Check the console for MQTT status and messages. {words}</p>
+      <p>Count: {count}</p>
+      <p>Testing Pass Variable. Click Here <Link href="./posts/variableTest">Testing Propss</Link></p>
+
       <h1>Page A</h1>
       <button onClick={handleClick}>Set Variable and Go to Page B</button>
+  
+  
     </div>
   );
 };
+
+
+
 
 
 export default MqttPage;
