@@ -1,9 +1,11 @@
 import { useState,useEffect,createContext,useContext } from 'react';
-import MapComponent from '../components/map';
-import OME from '../pages/posts/ome';
 import Link from 'next/link';
 import { useMyContext } from '../components/VariableContext';
 import { useRouter } from 'next/router';
+import ApiKeyForm from '../components/ApiKeyForm';
+import { useApiKey } from '../components/ApiKeyContext';
+import Map from '../components/map';
+import VariableCheck from './posts/variableTest';
 
 
 const mqtt = require('mqtt')
@@ -15,9 +17,12 @@ const options = {
   reconnectPeriod: 2000,
 };
 const topic = "faiz";
-let words = "default";
+let words = "3.08 101.56";
 let dataTosend= "default";
 const message = 'Hanto Dari Next jS'; // Define your message here
+
+
+
 
 
 
@@ -27,14 +32,27 @@ const MqttPage = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    const a = words
-    setMyVariable(a);
-    router.push('./posts/variableTest');
+    
+    setMyVariable(words);
+    // router.push('./posts/variableTest'); // untuk redirct next page
   };
 
 
   // Define a state variable and a function to update it
   const [count, setCount] = useState(0);
+
+  //api keys for HERE MAPS
+  const { apiKey, updateApiKey } = useApiKey();
+  //flats for resresh function ******** need revise ******
+  const [refreshFlag, setRefreshFlag] = useState(false);
+  //handle on submit for HERE Map api button
+  const handleApiKeySubmit = (key) => {
+  // Save the API key using the context function
+  updateApiKey(key);
+  setRefreshFlag(!refreshFlag);
+  };
+
+
 
   useEffect(() => {
     // Connect to your MQTT broker
@@ -62,6 +80,7 @@ const MqttPage = () => {
       console.log(`Received Message: ${message.toString()} On topic: ${topic}`)
       words = message.toString();
       dataTosend = words;
+      handleClick();
     });
 
 
@@ -90,6 +109,17 @@ const MqttPage = () => {
 
       <h1>Page A</h1>
       <button onClick={handleClick}>Set Variable and Go to Page B</button>
+
+      <VariableCheck/>
+
+      {!apiKey ? (
+                    <ApiKeyForm onSubmit={handleApiKeySubmit} />
+                   ): (<div>
+                       <p>Input Here Maps Api  : {apiKey}</p>
+                       {/* Pass refreshFlag to ComponentB */}
+                        <Map refreshFlag={refreshFlag}  />
+                   </div>           
+      )}
   
   
     </div>

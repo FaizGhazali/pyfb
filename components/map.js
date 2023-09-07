@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useApiKey } from '../components/ApiKeyContext';
+import { useMyContext } from '../components/VariableContext';
 
 
 export default function Map({ refreshFlag }){
@@ -7,6 +8,10 @@ export default function Map({ refreshFlag }){
   
   const { apiKey:mapKeys, updateApiKey } = useApiKey();
   
+
+  //contact for myVariable
+  const { myVariable } = useMyContext();
+  const [latitudes,longitudes] =myVariable ? myVariable.split(' ').map(parseFloat) : [3.08, 101.56];
 
     const handleApiKeySubmit = (key) => {
     // Save the API key using the context function
@@ -18,6 +23,7 @@ export default function Map({ refreshFlag }){
     let marker;
     let map;
     let markerlatitude = 3.08;
+    let markerlongitude = 101.56;
     let latitude = 3.08;
     let longtitude = 101.56;
     let markerpos;
@@ -58,7 +64,7 @@ export default function Map({ refreshFlag }){
       anchor: { x: 20, y: 40 }
       });
       marker = new H.map.Marker(
-        { lat: markerlatitude, lng: 101.56 },
+        { lat: markerlatitude, lng: markerlongitude },
         { icon: emojiIcon }
       );
       return marker;
@@ -68,11 +74,16 @@ export default function Map({ refreshFlag }){
       map.addObject(marker);
     }
     function updateMarker(){
-       markerlatitude += 0.0002;
+        
+       // markerlatitude +=0.0008 ;
+      // markerlatitude =3.0808 ;
+      markerlatitude = latitudes;
+      // markerlongitude = longitudes;
       if(marker){
           marker.dispose();
       };
-      MakeMarker(markerlatitude);
+      
+      MakeMarker(markerlatitude,markerlongitude);
       AddMarkerOnMap(map,marker);
       
       markerpos =marker.getGeometry();
@@ -100,7 +111,12 @@ export default function Map({ refreshFlag }){
       // Cleanup
       map.dispose();
     };
-  }, [refreshFlag]);
+  }, [refreshFlag,latitudes]);
 
-  return <div ref={mapRef} style={{ width: '100%', height: '1000px' }} />;
+  return (<>
+    <div ref={mapRef} style={{ width: '100%', height: '1000px' }} />
+    Received Data: {myVariable} <br/>
+        Latitude : {latitudes} <br/>
+        Longitude : {longitudes} <br/>
+  </>);
 }

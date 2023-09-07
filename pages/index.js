@@ -59,17 +59,20 @@ export default function Home() {
                 <h1>Go to , <Link href="./mqtt-page">Mosquitto</Link></h1>
                 
                 
-                <Ome/>
+               
                 
                 
                 
                 {!apiKey ? (
                 <ApiKeyForm onSubmit={handleApiKeySubmit} />
-                   ) : (
-                 <p>Input Here Maps Api  : {apiKey}</p>
+                   ) : (<div>
+                       <p>Input Here Maps Api  : {apiKey}</p>
+                       {/* Pass refreshFlag to ComponentB */}
+                        <Map refreshFlag={refreshFlag} />
+                   </div>
+                 
                 )}
-                {/* Pass refreshFlag to ComponentB */}
-                <Map refreshFlag={refreshFlag} />
+                
                 
             
         
