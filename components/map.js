@@ -75,9 +75,9 @@ export default function Map({ refreshFlag }){
     }
     function updateMarker(){
         
-       // markerlatitude +=0.0008 ;
+      markerlatitude +=0.0008 ;
       // markerlatitude =3.0808 ;
-      markerlatitude = latitudes;
+      //markerlatitude = latitudes;
       // markerlongitude = longitudes;
       if(marker){
           marker.dispose();
