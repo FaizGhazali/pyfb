@@ -9,7 +9,8 @@ import VariableCheck from './posts/variableTest';
 
 
 const mqtt = require('mqtt')
-const mqttUri = 'ws://192.168.0.102:7991'; // Corrected URI
+const mqttUri = 'ws://192.168.1.107:7083'; // Rumah
+//const mqttUri = 'ws://192.168.0.102:7991'; // Ofiice
 const options = {
   userName: '', // Add your MQTT username if required
   password: '', // Add your MQTT password if required
@@ -20,6 +21,10 @@ const topic = "faiz";
 let words = "3.08 101.56";
 let dataTosend= "default";
 const message = 'Hanto Dari Next jS'; // Define your message here
+
+let markerlatitude = 3.08;
+let markerlongitude = 101.56;
+
 
 
 
@@ -123,8 +128,7 @@ const MqttPage = () => {
     console.log(coor);
     let marker;
     let map;
-    let markerlatitude = 3.08;
-    let markerlongitude = 101.56;
+    
     let latitude = 3.08;
     let longtitude = 101.56;
     let markerpos;
@@ -141,18 +145,20 @@ const MqttPage = () => {
     const defaultLayers = platform.createDefaultLayers();
 
     //-------------------- Start
-    function MakeMap(latitude,longtitude){
+    function MakeMap(latitudep,longtitudep){
       // Initialize the platform and map
       if (map){
         console.log("Destroy Map Called");
         map.dispose();
       }
-     
+      latitude = latitudep;
+      longtitude = longtitudep
 
       
       map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
         center: { lat: latitude, lng: longtitude },
         zoom: 17,
+        //default value 17
       });
       if(map){
         marker = MakeMarker(markerlatitude);
@@ -177,7 +183,7 @@ const MqttPage = () => {
     }
     function updateMarker(){
         
-      //markerlatitude +=0.0008 ;
+      // markerlatitude +=0.0008 ;
       // markerlatitude =3.0808 ;
       //markerlatitude = latitudes;
       // markerlongitude = longitudes;
@@ -189,6 +195,8 @@ const MqttPage = () => {
       };
       markerlatitude=latitudes;
       markerlongitude = longitudes;
+      // markerlatitude -=0.0008 ;
+      // markerlongitude -=0.0008;
       MakeMarker(markerlatitude,markerlongitude);
       AddMarkerOnMap(map,marker);
       
@@ -199,10 +207,17 @@ const MqttPage = () => {
 
     function reCenterMarker(markerpos){
       if(latitude-markerpos.lat<-0.005){
-        latitude=markerlatitude+0.0020;
-        MakeMap(latitude,longtitude);
-        
+        MakeMap(markerlatitude,longtitude);
        }
+      else if (latitude-markerpos.lat>0.005){
+        MakeMap(markerlatitude,longtitude);
+      }
+      if(longtitude-markerpos.lng<-0.012){
+        MakeMap(latitude,markerlongitude);
+      }
+      else if(longtitude-markerpos.lng>0.012){
+        MakeMap(latitude,markerlongitude);
+      }
     }
    //------------------- END
     MakeMap(latitude,longtitude);
@@ -235,6 +250,7 @@ const MqttPage = () => {
                        <p>Input Here Maps Api  : {apiKey}</p>
                        {/* Pass refreshFlag to ComponentB */}
                        <div ref={mapRef} style={{ width: '100%', height: '1000px' }} />
+                       <p>Marker Coordinate : {markerlatitude} : {markerlongitude}</p>
                    </div>           
       )}
   
