@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import DisplayData from './DisplayData';
 
 export default function CrudTest() {
   const [column1, setColumn1] = useState('');
   const [column2, setColumn2] = useState('');
-  const [db_name, setColumnDb_name] = useState('');
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -11,9 +12,7 @@ export default function CrudTest() {
       setColumn1(value);
     } else if (name === 'column2') {
       setColumn2(value);
-    } else if (name === 'db_name') {
-      setColumnDb_name(value);
-    }
+    } 
   };
 
   const handleCreate = async () => {
@@ -93,16 +92,9 @@ export default function CrudTest() {
       <button onClick={handleRead}>Read</button>
       <button onClick={handleUpdate}>Update</button>
       <button onClick={handleDelete}>Delete</button>
-      {/* <br/><br/><br/><br/>
-      <h1>CREATE DB</h1>
-      <div>
-        <label>
-          DB NAME: 
-          <input type="text" name="db_name" value={db_name} onChange={handleInputChange} />
-        </label>
-        <br/>
-        <button onClick={handleCreate}>Create New DB</button>
-      </div> */}
+
+      <DisplayData/>
+     
     </div>
   );
 }

@@ -9,8 +9,8 @@ import VariableCheck from './posts/variableTest';
 
 
 const mqtt = require('mqtt')
-const mqttUri = 'ws://192.168.1.107:7083'; // Rumah
-//const mqttUri = 'ws://192.168.0.102:7991'; // Ofiice
+//const mqttUri = 'ws://192.168.1.107:7083'; // Rumah
+const mqttUri = 'ws://192.168.0.102:7991'; // Ofiice
 const options = {
   userName: '', // Add your MQTT username if required
   password: '', // Add your MQTT password if required
