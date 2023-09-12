@@ -212,7 +212,7 @@ const MqttPage = () => {
       else if (latitude-markerpos.lat>0.005){
         MakeMap(markerlatitude,longtitude);
       }
-      if(longtitude-markerpos.lng<-0.012){
+      else if(longtitude-markerpos.lng<-0.012){
         MakeMap(latitude,markerlongitude);
       }
       else if(longtitude-markerpos.lng>0.012){
