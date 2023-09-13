@@ -22,7 +22,7 @@ export default function CrudTest() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ column1, column2 }),
+        body: JSON.stringify({ column1, column2 }), //sent variable to json body
       });
       const data = await response.json();
       console.log(data);
