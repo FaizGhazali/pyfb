@@ -39,13 +39,14 @@ export default function Map({ refreshFlag }){
     const defaultLayers = platform.createDefaultLayers();
 
     //-------------------- Start
-    function MakeMap(latitude,longtitude){
+    function MakeMap(latitudep,longtitudep){
       // Initialize the platform and map
       if (map){
         console.log("Destroy Map Called");
         map.dispose();
       }
-     
+      latitude = latitudep;
+      longtitude = longtitudep
 
       
       map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
@@ -75,7 +76,8 @@ export default function Map({ refreshFlag }){
     }
     function updateMarker(){
         
-      markerlatitude +=0.0008 ;
+      //markerlatitude -=0.0008 ;
+      //markerlongitude +=0.0008;
       // markerlatitude =3.0808 ;
       //markerlatitude = latitudes;
       // markerlongitude = longitudes;
@@ -93,10 +95,17 @@ export default function Map({ refreshFlag }){
 
     function reCenterMarker(markerpos){
       if(latitude-markerpos.lat<-0.005){
-        latitude=markerlatitude+0.0020;
-        MakeMap(latitude,longtitude);
-        
+        MakeMap(markerlatitude,longtitude);
        }
+      else if (latitude-markerpos.lat>0.005){
+        MakeMap(markerlatitude,longtitude);
+      }
+      else if(longtitude-markerpos.lng<-0.012){
+        MakeMap(latitude,markerlongitude);
+      }
+      else if(longtitude-markerpos.lng>0.012){
+        MakeMap(latitude,markerlongitude);
+      }
     }
    //------------------- END
     MakeMap(latitude,longtitude);
@@ -111,7 +120,7 @@ export default function Map({ refreshFlag }){
       // Cleanup
       map.dispose();
     };
-  }, [refreshFlag,latitudes]);
+  }, [refreshFlag]);
 
   return (<>
     <div ref={mapRef} style={{ width: '100%', height: '1000px' }} />

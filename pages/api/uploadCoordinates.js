@@ -4,7 +4,14 @@ const path = require('path');
 const filePath = path.join(process.cwd(), 'public/mapLocation.txt'); 
 
 export default async function handler (req, res){
-  try {// Read the file
+  try {
+    //delete all data 
+    await db.query('DELETE FROM gps_location');
+
+    // Truncate the table to reset auto-incremented ID //reset bali auto increment id
+    await db.query('TRUNCATE TABLE gps_location');
+
+    // Read the file
     const data = fs.readFileSync(filePath, 'utf8');
     console.log('File content:', data); 
     const coordinates = data.split('\n').map(line => {
