@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import ButtonComponent from './ButtonComponent';
+import ButtonComponent from './Button';
 
-const MButton = () => {
-  const [activeButton, setActiveButton] = useState(null);
+const MButton = ({ sendDataToMButton }) => {
+  const [isActive, setIsActive] = useState(false);
+  const handleClick = (name) =>{
+     //alert(`Changed Mode: ${name}`);
+     setIsActive(name);
+    sendDataToMButton(name);
 
-  const handleButtonClick = (label) => {
-    setActiveButton(label === activeButton ? null : label);
-  };
+     
+  }
 
   return (
     <div>
-     <ButtonComponent
-  label="Special Button"
-  special={true}
-  onClick={() => handleButtonClick('Special Button')}
-/>
-
+     <ButtonComponent onClick={handleClick} name="Files mode" isActive={isActive==="Files mode"}>Read Files Coor</ButtonComponent>
+     <ButtonComponent onClick={handleClick} name="Mqtt mode" isActive={isActive==="Mqtt mode"}>Mqtt Message Coor</ButtonComponent>
+     <ButtonComponent onClick={handleClick} name="Auto mode" isActive={isActive==="Auto mode"}>Auto Moving Coor</ButtonComponent>
     </div>
   );
 };

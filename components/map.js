@@ -3,21 +3,18 @@ import { useApiKey } from '../components/ApiKeyContext';
 import { useMyContext } from '../components/VariableContext';
 
 
-export default function Map({ refreshFlag }){
+export default function Map({ refreshFlag,activeButton  }){
   const mapRef = useRef(null);
-  
   const { apiKey:mapKeys, updateApiKey } = useApiKey();
   
-
   //contact for myVariable
   const { myVariable } = useMyContext();
   const [latitudes,longitudes] =myVariable ? myVariable.split(' ').map(parseFloat) : [3.08, 101.56];
 
-    const handleApiKeySubmit = (key) => {
-    // Save the API key using the context function
-    updateApiKey(key);
-    };
-  
+  const handleApiKeySubmit = (key) => {
+  // Save the API key using the context function
+  updateApiKey(key);
+  };
   
   useEffect(() => {
     let marker;
@@ -77,10 +74,6 @@ export default function Map({ refreshFlag }){
     function updateMarker(){
         
       //markerlatitude -=0.0008 ;
-      //markerlongitude +=0.0008;
-      // markerlatitude =3.0808 ;
-      //markerlatitude = latitudes;
-      // markerlongitude = longitudes;
       if(marker){
           marker.dispose();
       };
@@ -112,8 +105,7 @@ export default function Map({ refreshFlag }){
     
     
     window.addEventListener('resize', () => map.getViewPort().resize());
-
-    setInterval(updateMarker, 1000);
+    setInterval(updateMarker, 1000); //interval refresh
     
 
     return () => {
@@ -123,6 +115,8 @@ export default function Map({ refreshFlag }){
   }, [refreshFlag]);
 
   return (<>
+  <h1>HERE MAPS components</h1>
+  <p>Active Button: {activeButton}</p>
     <div ref={mapRef} style={{ width: '100%', height: '1000px' }} />
     Received Data: {myVariable} <br/>
         Latitude : {latitudes} <br/>
