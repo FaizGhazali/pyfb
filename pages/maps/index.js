@@ -3,6 +3,7 @@ import HEREMaps from '../../components/map'
 import ApiKeyForm from '../../components/ApiKeyForm';
 import { useApiKey } from '../../components/ApiKeyContext';
 import ChildComponent from '../../components/ChildComponent';
+import DbTable from '../../components/mapComponents/Display'
 
 import Button from '../../components/Button/MButton'
 
@@ -11,6 +12,13 @@ const Home=()=>{
     const handleDataFromChild = (data) => {
         setDataFromChild(data);
       };
+    const [arrayFromDbTable,setArrayFromDbTable] = useState(null);
+    const handleData = (data)=>{
+        // setArrayFromDbTable(data);
+        // await Promise.resolve();
+        arrayFromDbTableRef.current=data;
+        // console.log(arrayFromDbTableRef.current);
+    }
     const [dataFromChildMButton, setDataFromMButton] = useState(null);
     const handleDataFromMButton =(data)=>{
         setDataFromMButton(data);
@@ -18,10 +26,16 @@ const Home=()=>{
     }
 
     const myRef = useRef('newValue');
+    const arrayFromDbTableRef = useRef('');
 
-    useEffect(() => {
-        myRef.current ;
-      }, []);
+    // useEffect(()=>{
+    //     if(arrayFromDbTable){
+    //         arrayFromDbTable.forEach((obj, index) => {
+    //             // SHOW Object
+    //             // console.log(`Object ${index + 1}:`, JSON.stringify(obj));
+    //           });
+    //     }
+    // },[arrayFromDbTable]);
 
 
     const { apiKey, updateApiKey } = useApiKey();
@@ -41,10 +55,11 @@ const Home=()=>{
                    ) : (<div>
                        <p>Input Here Maps Api  : {apiKey}</p>
                        {/* Pass refreshFlag to ComponentB */}
-                        <HEREMaps forwardedRef={myRef}/>
-                   </div>
-                 
+                        <HEREMaps forwardedRef={myRef} dbRef={arrayFromDbTableRef}/>
+                   </div> 
                 )}
+        <DbTable sendData={handleData}/>
+        
         </>
     )
 }

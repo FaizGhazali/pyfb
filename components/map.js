@@ -3,9 +3,11 @@ import { useApiKey } from '../components/ApiKeyContext';
 import { useMyContext } from '../components/VariableContext';
 
 
-export default function Map({ refreshFlag,activeButton,forwardedRef  }){
+export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef  }){
   const mapRef = useRef(null);
   const { apiKey:mapKeys, updateApiKey } = useApiKey();
+  
+  
   
   //contact for myVariable
   const { myVariable } = useMyContext();
@@ -17,6 +19,7 @@ export default function Map({ refreshFlag,activeButton,forwardedRef  }){
   };
   
   useEffect(() => {
+    
     let marker;
     let map;
     let markerlatitude = 3.08;
@@ -25,6 +28,8 @@ export default function Map({ refreshFlag,activeButton,forwardedRef  }){
     let longtitude = 101.56;
     let markerpos;
     let platform;
+    let la;
+    let lon;
     if (!mapKeys) {
       console.error("API key is not provided.");
       return;
@@ -78,6 +83,8 @@ export default function Map({ refreshFlag,activeButton,forwardedRef  }){
         markerlatitude -=0.0008;
       }else if (forwardedRef.current==="Mqtt mode"){
         markerlatitude +=0.0008;
+      }else if (forwardedRef.current==="Auto mode"){
+
       }
       console.log("value" +forwardedRef.current);
       if(marker){
@@ -119,6 +126,21 @@ export default function Map({ refreshFlag,activeButton,forwardedRef  }){
       map.dispose();
     };
   }, [refreshFlag]);
+
+  useEffect(()=>{
+    const intervalId = setInterval(() => {
+      const currentArray = dbRef.current;
+      
+      if (currentArray.length > 0) {
+        const item = currentArray.shift(); // Remove the first element from the array
+        //currentArray.push(item);
+      }else {
+        clearInterval(intervalId); // Stop processing if the array is empty
+      }
+      console.log(currentArray);
+    },2000);//5 sec
+    return () => clearInterval(intervalId);
+  });
 
   return (<>
   <h1>HERE MAPS components</h1>
