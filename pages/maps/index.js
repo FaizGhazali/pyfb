@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import HEREMaps from '../../components/map'
 import ApiKeyForm from '../../components/ApiKeyForm';
 import { useApiKey } from '../../components/ApiKeyContext';
@@ -14,7 +14,16 @@ const Home=()=>{
     const [dataFromChildMButton, setDataFromMButton] = useState(null);
     const handleDataFromMButton =(data)=>{
         setDataFromMButton(data);
+        myRef.current=data;
     }
+
+    const myRef = useRef('newValue');
+
+    useEffect(() => {
+        myRef.current ;
+      }, []);
+
+
     const { apiKey, updateApiKey } = useApiKey();
     const handleApiKeySubmit = (key) => {
         updateApiKey(key);
@@ -32,7 +41,7 @@ const Home=()=>{
                    ) : (<div>
                        <p>Input Here Maps Api  : {apiKey}</p>
                        {/* Pass refreshFlag to ComponentB */}
-                        <HEREMaps/>
+                        <HEREMaps forwardedRef={myRef}/>
                    </div>
                  
                 )}

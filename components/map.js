@@ -3,7 +3,7 @@ import { useApiKey } from '../components/ApiKeyContext';
 import { useMyContext } from '../components/VariableContext';
 
 
-export default function Map({ refreshFlag,activeButton  }){
+export default function Map({ refreshFlag,activeButton,forwardedRef  }){
   const mapRef = useRef(null);
   const { apiKey:mapKeys, updateApiKey } = useApiKey();
   
@@ -74,6 +74,12 @@ export default function Map({ refreshFlag,activeButton  }){
     function updateMarker(){
         
       //markerlatitude -=0.0008 ;
+      if(forwardedRef.current==="Files mode"){
+        markerlatitude -=0.0008;
+      }else if (forwardedRef.current==="Mqtt mode"){
+        markerlatitude +=0.0008;
+      }
+      console.log("value" +forwardedRef.current);
       if(marker){
           marker.dispose();
       };
@@ -121,5 +127,6 @@ export default function Map({ refreshFlag,activeButton  }){
     Received Data: {myVariable} <br/>
         Latitude : {latitudes} <br/>
         Longitude : {longitudes} <br/>
+        Received Value: {forwardedRef.current}
   </>);
 }
