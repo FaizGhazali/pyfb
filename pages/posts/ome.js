@@ -25,7 +25,7 @@ export default function AsyncOvenPlayer() {
             // Set the type to 'webrtc'
             type: 'webrtc',
             // Set the file to WebRTC Signaling URL with OvenMediaEngine 
-            file: 'ws://192.168.0.100:5754/app/stream'
+            file: 'ws://192.168.0.102:5754/app/stream'
           }
         ]
         
@@ -45,20 +45,7 @@ export default function AsyncOvenPlayer() {
         <title>OvenPlayer</title>
       </Head>
       <div id="player_id"></div>
-      <button className="button" id="startButton">Start Record</button>
-      <div id="result" className="plain-word"></div>
-      <button className="button" id="stopButton">Stop Record</button>
-      <button className="button" id="statusButton">Recording Status</button>
-      <div id="statusResult" className="plain-word"></div>
-      <div id="mapContainer" style={{ width: '100%', height: '500px' }}></div>
-      {/* Any additional scripts you want to load */}
-      <Script
-        src="res/script/map.js"
-        strategy="afterInteractive"
-      />
       
-
-      <h1>Back to Home Page, <Link href="./">Click to go to the first post</Link></h1>
     </div>
   );
 }

@@ -10,14 +10,14 @@ import VariableCheck from './posts/variableTest';
 
 const mqtt = require('mqtt')
 //const mqttUri = 'ws://192.168.1.107:7083'; // Rumah
-const mqttUri = 'ws://192.168.0.102:7991'; // Ofiice
+const mqttUri = 'ws://103.233.1.179:3000'; // Ofiice
 const options = {
-  userName: '', // Add your MQTT username if required
-  password: '', // Add your MQTT password if required
+  userName: 'PGServer', // Add your MQTT username if required
+  password: 'PrimeG479@', // Add your MQTT password if required
   clientId: 'nextjs',
   reconnectPeriod: 2000,
 };
-const topic = "faiz";
+const topic = "/drone1/data";
 let words = "3.08 101.56";
 let dataTosend= "default";
 const message = 'Hanto Dari Next jS'; // Define your message here
@@ -69,12 +69,12 @@ const MqttPage = () => {
     //-------------------------------------------------MQTT PART----------------------
     // Connect to your MQTT broker
     
-    const client = mqtt.connect(mqttUri);
+    const client = mqtt.connect(mqttUri,options);
 
     // Set up event handlers
     
     client.on('connect', () => {
-      //console.log('Connected to MQTT broker');
+      console.log('Connected to MQTT broker');
       
       // Publish the message to a topic
       // client.publish(topic, message); // Use the 'message' variable here
@@ -82,7 +82,7 @@ const MqttPage = () => {
     // Receive
     client.subscribe(topic, { qos: 0 }, function (error, granted) {
       if (error) {
-        console.log(error)
+        console.log("This is Error " +error)
       } else {
        // console.log(`${granted[0].topic} was subscribed`)
       }

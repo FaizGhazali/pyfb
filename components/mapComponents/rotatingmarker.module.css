@@ -1,0 +1,8 @@
+.rotating-marker {
+    width: 24px; /* Adjust the width and height as needed */
+    height: 24px;
+    background-image: url('/images/drone.png'); /* Replace with your marker icon */
+    background-size: cover;
+    transform-origin: center center;
+    transition: transform 0.3s ease;
+  }

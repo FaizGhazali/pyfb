@@ -1,0 +1,32 @@
+.container {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+  }
+  
+  /* styles/globals.css */
+  
+  .overlayTop {
+    position: absolute;
+    top: 20%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    padding: 20px;
+    
+    width: 400px; /* Adjust the width as needed */
+    height: 300px; /* Adjust the height as needed */
+  }
+
+  .overlayBot {
+    position: absolute;
+    top: 83%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+    background-color: #f0f0f0; /* Change to green */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }

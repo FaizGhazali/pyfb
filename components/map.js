@@ -6,6 +6,13 @@ import { useMyContext } from '../components/VariableContext';
 export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef  }){
   const mapRef = useRef(null);
   const { apiKey:mapKeys, updateApiKey } = useApiKey();
+
+  let newLa= useRef();
+  const [newLo,setNewLo]=useState('');
+  
+
+  const [a, setA]= useState('');
+  const [b, setB]= useState('');
   
   
   
@@ -28,8 +35,8 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef  }){
     let longtitude = 101.56;
     let markerpos;
     let platform;
-    let la;
-    let lon;
+    let la= 3.08;
+    let lon= 101.56;
     if (!mapKeys) {
       console.error("API key is not provided.");
       return;
@@ -53,7 +60,7 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef  }){
       
       map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
         center: { lat: latitude, lng: longtitude },
-        zoom: 17,
+        zoom: 17,//17
       });
       if(map){
         marker = MakeMarker(markerlatitude);
@@ -77,13 +84,17 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef  }){
       map.addObject(marker);
     }
     function updateMarker(){
-        
+      setA(markerlatitude);
+      setB(markerlongitude);
+      console.log(newLa);
       //markerlatitude -=0.0008 ;
       if(forwardedRef.current==="Files mode"){
         markerlatitude -=0.0008;
       }else if (forwardedRef.current==="Mqtt mode"){
-        markerlatitude +=0.0008;
+        markerlongitude +=0.0008;
       }else if (forwardedRef.current==="Auto mode"){
+       // markerlatitude = newLa;
+        // markerlongitude =newLo;
 
       }
       console.log("value" +forwardedRef.current);
@@ -133,11 +144,14 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef  }){
       
       if (currentArray.length > 0) {
         const item = currentArray.shift(); // Remove the first element from the array
-        //currentArray.push(item);
+         newLa.current = item.latitude ;
+        // newLo = item.longitude;
+       
+        currentArray.push(item);
       }else {
-        clearInterval(intervalId); // Stop processing if the array is empty
+        clearInterval(intervalId); // Stop processing if the array is empt
       }
-      console.log(currentArray);
+      //console.log(currentArray);
     },2000);//5 sec
     return () => clearInterval(intervalId);
   });
@@ -145,6 +159,7 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef  }){
   return (<>
   <h1>HERE MAPS components</h1>
   <p>Active Button: {activeButton}</p>
+  <p>markerlatitude : {a}</p> <p>&nbsp;markerlongitude : {b}</p>
     <div ref={mapRef} style={{ width: '100%', height: '1000px' }} />
     Received Data: {myVariable} <br/>
         Latitude : {latitudes} <br/>
