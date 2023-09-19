@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+// import H from 'react-leaflet-here-map';
 
 
 export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef,data  }){
@@ -26,7 +27,9 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef,data  
       apikey: "ykV0LNTyrAZsQSzEcTasWIm_E2bo8fr5wrKFYaGUQPY", // Replace with your HERE API Key
     });
         //ykV0LNTyrAZsQSzEcTasWIm_E2bo8fr5wrKFYaGUQPY
-    const defaultLayers = platform.createDefaultLayers({Map:"satellite"});
+    const defaultLayers = platform.createDefaultLayers({
+      layers: ['raster', 'terrain', 'labels'], // Add 'raster' layer
+    });
 
     //-------------------- Start
     function MakeMap(latitudep,longtitudep){
@@ -39,10 +42,17 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef,data  
       longtitude = longtitudep
 
       
-      map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
+      map = new H.Map(mapRef.current, defaultLayers.raster.satellite.map, { // Use satellite view
         center: { lat: latitude, lng: longtitude },
-        zoom: 17,//17
+        zoom: 16,
+        
+        
       });
+      const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+      // Enable zoom control
+      const ui = H.ui.UI.createDefault(map, defaultLayers);
+      
       if(map){
         marker = MakeMarker(markerlatitude);
         AddMarkerOnMap(map,marker);
@@ -58,7 +68,7 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef,data  
     }
 
     function MakeMarker(markerlatitude){      
-      const emojiIcon = new H.map.Icon('/images/drone.png', {
+      const emojiIcon = new H.map.Icon('/images/dragon_icon.png', {
       size: { w: 40, h: 40 },
       anchor: { x: 0, y: 0 },
       rotation: 180
@@ -123,7 +133,7 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef,data  
       
       markerpos =marker.getGeometry();
       // //23
-      reCenterMarker(markerpos);
+      //reCenterMarker(markerpos);
     }
 
     function reCenterMarker(markerpos){
@@ -171,6 +181,6 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef,data  
   }, []); // Empty dependency array ensures the effect runs only once on component mount
   return (<>
   
-    <div ref={mapRef} style={{ width: '100%', height: '1240px' }} />
+    <div ref={mapRef} style={{ width: '100%', height: '1200px' }} />
   </>);
 }

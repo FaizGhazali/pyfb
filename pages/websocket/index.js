@@ -2,6 +2,7 @@ import React, { useEffect,useRef } from 'react';
 import HEREMaps from '../../components/mapComponents/Map';
 import OverlayComponent from '../../components/mapComponents/OverlayComponent'
 import styles from './ws.module.css';
+import Header from '../../components/Header';
 
 const WebS =()=>{
     const dataRef = useRef();
@@ -35,7 +36,8 @@ const WebS =()=>{
 
     return (
         <>
-        <h1>Fleet Comander</h1>
+         <Header />
+        
         
         <HEREMaps data={dataRef} />
         <OverlayComponent data={dataRef}/>
