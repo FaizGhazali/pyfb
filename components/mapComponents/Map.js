@@ -27,6 +27,9 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef,data  
       apikey: "ykV0LNTyrAZsQSzEcTasWIm_E2bo8fr5wrKFYaGUQPY", // Replace with your HERE API Key
     });
         //ykV0LNTyrAZsQSzEcTasWIm_E2bo8fr5wrKFYaGUQPY
+    // const defaultLayers = platform.createDefaultLayers({
+    //   layers: ['raster', 'terrain', 'labels'], // Add 'raster' layer
+    // });
     const defaultLayers = platform.createDefaultLayers({
       layers: ['raster', 'terrain', 'labels'], // Add 'raster' layer
     });
@@ -68,7 +71,7 @@ export default function Map({ refreshFlag,activeButton,forwardedRef,dbRef,data  
     }
 
     function MakeMarker(markerlatitude){      
-      const emojiIcon = new H.map.Icon('/images/dragon_icon.png', {
+      const emojiIcon = new H.map.Icon('/images/drone.png', {
       size: { w: 40, h: 40 },
       anchor: { x: 0, y: 0 },
       rotation: 180
